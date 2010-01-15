@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE template-config PUBLIC
+		"-//Template Configuration Settings DTD//EN"
+		"../../../WEB-INF/dtds/txbb-template.cfg.dtd">
+-->		
+<template-config>
+	<settings>
+		<charset>utf-8</charset>
+	</settings>
+	
+	<page id="helloworld">
+		<templateFile>helloworld.jsp</templateFile>
+	</page>
+	
+	<page id="forum.index">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="HelloWorld"/>
+			</left-column>
+			<!--
+			<main-content>
+			</main-content>
+			<right-column>
+			</right-column>
+			-->
+		</ui-layout>
+	</page>
+	
+	<page id="forumMember.index">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="ForumMemberMainMenu"/>
+			</left-column>
+			<main-content>
+				<ui-component id="ForumMemberIndexPage"/>
+				<ui-component id="CommonMemberOnlineList"/>
+			</main-content>
+			<!--
+			<right-column>
+			</right-column>
+			-->
+		</ui-layout>
+	</page>
+	
+	<page id="member.index">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="MemberBlockMainMenu"/>
+			</left-column>
+			<main-content>
+				<ui-component id="MemberPageIndex"/>
+				<ui-component id="CommonBlockMemberOnlineList"/>
+			</main-content>
+		</ui-layout>
+	</page>
+	
+	<page id="member.error">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="MemberBlockMainMenu"/>
+			</left-column>
+			<main-content>
+				<ui-component id="CommonPageError"/>
+			</main-content>
+		</ui-layout>
+	</page>
+	
+	<page id="member.information">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="MemberBlockMainMenu"/>
+			</left-column>
+			<main-content>
+				<ui-component id="CommonPageInformation"/>
+			</main-content>
+		</ui-layout>
+	</page>
+	
+	<page id="member.register">
+		<templateFile>layout.html</templateFile>
+		<ui-layout>
+			<left-column>
+				<ui-component id="MemberBlockMainMenu"/>
+			</left-column>
+			<main-content>
+				<ui-component id="MemberPageRegister"/>
+			</main-content>
+		</ui-layout>
+	</page>
+</template-config>

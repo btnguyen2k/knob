@@ -87,4 +87,11 @@
 			<ref bean="templateFactory" />
 		</property>
 	</bean>
+
+	<bean id="urlCreator" class="org.ddth.knob.utils.KnobUrlCreator">
+	</bean>
+
+	<!-- START controllers -->
+	<bean id="xxxControler" class="" />
+	<!-- END controllers -->
 </beans>

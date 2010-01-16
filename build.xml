@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Ant build file for Knob project -->
-<project name="Knob" default="default">
+<project name="Knob" default="compile">
 	<description>
 		Knob - A StackOverFlow clone written in Java.
     </description>
 
-	<!-- ================================= 
-          target: default              
-         ================================= -->
-	<target name="default" depends="depends" description="description">
+	<property name="product.name" value="knob" />
+	<property name="product.version" value="0.1" />
 
+	<!-- directory properties -->
+	<property name="dir.src" value="src" />
+	<property name="dir.resources" value="resources" />
+	<property name="dir.resources.lib" value="${dir.resources}/lib" />
+	<property name="dir.classes" value="classes" />
+	<property name="dir.web" value="web" />
+	<property name="dir.web.WEB_INF" value="${dir.web}/WEB-INF" />
+	<property name="dir.web.WEB_INF.classes" value="${dir.web.WEB_INF}/classes" />
+	<property name="dir.web.WEB_INF.lib" value="${dir.web.WEB_INF}/lib" />
+
+	<!-- Create the time stamp -->
+	<tstamp />
+
+	<mkdir dir="${dir.classes}" />
+
+	<target name="compile" description="Compile Java source files">
+		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true" source="1.6" encoding="utf-8" optimize="on" target="1.6">
+			<classpath>
+				<fileset dir="${dir.resources.lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${dir.web.WEB_INF.lib}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+		<!-- copy resource files -->
+		<copy todir="${dir.classes}">
+			<fileset dir="${dir.src}">
+				<exclude name="**/*.java" />
+				<!--
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.txt" />
+				-->
+			</fileset>
+		</copy>
+
+		<jar jarfile="${dir.web.WEB_INF.lib}/${product.name}-${product.version}.jar" basedir="${dir.classes}" />
 	</target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: depends                      
-         - - - - - - - - - - - - - - - - - -->
-	<target name="depends">
-	</target>
-
 </project>

@@ -3,12 +3,12 @@
 	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>Knob</display-name>
-	
-	<context-param>
-		<description>Configure the "fake" file extension</description>
-		<param-name>fakeExt</param-name>
-		<param-value>.knob</param-value>
-	</context-param>
+
+	<!--
+		<context-param> <description>Configure the "fake" file
+		extension</description> <param-name>fakeExt</param-name>
+		<param-value>.html</param-value> </context-param>
+	-->
 
 	<filter>
 		<filter-name>PandaRequestDispatcherFilter</filter-name>
@@ -21,7 +21,7 @@
 				[\.gif$;PandaTemplateResourceHandlerServlet]
 				[\.png$;PandaTemplateResourceHandlerServlet]
 				[\.jpg$;PandaTemplateResourceHandlerServlet]
-				[\.knob$ ;panda]
+				[^.*$ ;panda]
 			</param-value>
 		</init-param>
 	</filter>
@@ -41,7 +41,7 @@
 		<servlet-name>PandaTemplateResourceHandlerServlet</servlet-name>
 		<servlet-class>org.ddth.panda.servlet.TemplateResourceHandlerServlet</servlet-class>
 	</servlet>
-	
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/404.jsp</location>

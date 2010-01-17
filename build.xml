@@ -10,6 +10,7 @@
 
 	<!-- directory properties -->
 	<property name="dir.src" value="src" />
+	<property name="dir.temp" value="temp" />
 	<property name="dir.resources" value="resources" />
 	<property name="dir.resources.lib" value="${dir.resources}/lib" />
 	<property name="dir.classes" value="classes" />
@@ -22,6 +23,7 @@
 	<tstamp />
 
 	<mkdir dir="${dir.classes}" />
+	<mkdir dir="${dir.temp}" />
 
 	<target name="compile" description="Compile Java source files">
 		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true" source="1.6" encoding="utf-8" optimize="on" target="1.6">
@@ -47,6 +49,26 @@
 			</fileset>
 		</copy>
 
-		<jar jarfile="${dir.web.WEB_INF.lib}/${product.name}-${product.version}.jar" basedir="${dir.classes}" />
+		<jar jarfile="${dir.web.WEB_INF.lib}/${product.name}-${product.version}.jar" basedir="${dir.classes}">
+			<metainf dir="web/META-INF">
+			</metainf>
+		</jar>
+
+		<jspc destdir="${dir.temp}" srcdir="${dir.web}">
+			<classpath>
+				<fileset dir="${dir.resources.lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${dir.web.WEB_INF.lib}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="C:\DDTHServer\lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="C:\DDTHServer\lib\3rdparty">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</jspc>
 	</target>
 </project>

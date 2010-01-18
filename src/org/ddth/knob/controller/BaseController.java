@@ -36,6 +36,10 @@ public abstract class BaseController extends AbstractController {
 
 	public final static String MODEL_PAGE_TITLE = "title";
 
+	public final static String MODEL_PAGE_KEYWORDS = "keywords";
+
+	public final static String MODEL_PAGE_DESCRIPTION = "description";
+
 	/**
 	 * Gets a bean
 	 * 
@@ -158,6 +162,8 @@ public abstract class BaseController extends AbstractController {
 		Map<String, Object> modelPage = new HashMap<String, Object>();
 		mav.addObject(MODEL_PAGE, modelPage);
 		modelPageTitle(modelPage);
+		modelPageKeywords(modelPage);
+		modelPageDescription(modelPage);
 		modelPageContent(modelPage);
 	}
 
@@ -186,6 +192,40 @@ public abstract class BaseController extends AbstractController {
 			modelPage.put(MODEL_PAGE_TITLE, config.getStringValue());
 		} else {
 			modelPage.put(MODEL_PAGE_TITLE, "");
+		}
+	}
+
+	/**
+	 * Models the page's keywords.
+	 * 
+	 * @param modelPage
+	 *            Map<String, Object>
+	 */
+	protected void modelPageKeywords(Map<String, Object> modelPage) {
+		AppConfigManager acp = getAppConfigManager();
+		AppConfig config = acp
+				.loadConfig(KnobAppConfigConstants.CONFIG_PAGE_KEYWORDS);
+		if (config != null) {
+			modelPage.put(MODEL_PAGE_KEYWORDS, config.getStringValue());
+		} else {
+			modelPage.put(MODEL_PAGE_KEYWORDS, "");
+		}
+	}
+
+	/**
+	 * Models the page's description.
+	 * 
+	 * @param modelPage
+	 *            Map<String, Object>
+	 */
+	protected void modelPageDescription(Map<String, Object> modelPage) {
+		AppConfigManager acp = getAppConfigManager();
+		AppConfig config = acp
+				.loadConfig(KnobAppConfigConstants.CONFIG_PAGE_DESCRIPTION);
+		if (config != null) {
+			modelPage.put(MODEL_PAGE_DESCRIPTION, config.getStringValue());
+		} else {
+			modelPage.put(MODEL_PAGE_DESCRIPTION, "");
 		}
 	}
 

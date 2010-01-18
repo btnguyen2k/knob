@@ -5,6 +5,6 @@
 	</settings>
 	
 	<page id="index">
-		<templateFile>index.jsp</templateFile>
+		<templateFile>index.html</templateFile>
 	</page>
 </template-config>

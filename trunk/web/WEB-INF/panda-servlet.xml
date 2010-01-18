@@ -17,7 +17,6 @@
 		<property name="location" value="/WEB-INF/knob-config.properties" />
 	</bean>
 
-	<!-- 
 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"
 		scope="singleton">
 		<property name="jndiName" value="/jdbc/KnobDS" />
@@ -29,9 +28,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mappingResources">
 			<list>
-				<value>com/roadrantz/domain/Rant.hbm.xml</value>
-				<value>com/roadrantz/domain/Motorist.hbm.xml</value>
-				<value>com/roadrantz/domain/Vehicle.hbm.xml</value>
+				<value>org/ddth/knob/bo/appconfig/AppConfig.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -40,7 +37,6 @@
 			</props>
 		</property>
 	</bean>
-	-->
 
 	<bean id="defaultReplacementInterceptor"
 		class="org.ddth.panda.web.impl.DefaultWebReplacementInterceptor">

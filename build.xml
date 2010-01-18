@@ -53,22 +53,5 @@
 			<metainf dir="web/META-INF">
 			</metainf>
 		</jar>
-
-		<jspc destdir="${dir.temp}" srcdir="${dir.web}">
-			<classpath>
-				<fileset dir="${dir.resources.lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="${dir.web.WEB_INF.lib}">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="C:\DDTHServer\lib">
-					<include name="*.jar" />
-				</fileset>
-				<fileset dir="C:\DDTHServer\lib\3rdparty">
-					<include name="*.jar" />
-				</fileset>
-			</classpath>
-		</jspc>
 	</target>
 </project>

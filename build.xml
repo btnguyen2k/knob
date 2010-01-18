@@ -2,7 +2,7 @@
 <!-- Ant build file for Knob project -->
 <project name="Knob" default="compile">
 	<description>
-		Knob - A StackOverFlow clone written in Java.
+		Knob - A Knowledge Base System
     </description>
 
 	<property name="product.name" value="knob" />

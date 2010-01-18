@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context displayName="Knob" docBase="$deploy.dir$" path="/knob"
+	debug="0" workDir="work/Catalina/localhost/$context.name$" reloadable="false"
+	override="true">
+
+	<!-- for HSQLDB -->
+	<!--
+		<Resource name="jdbc/KnobDS" auth="Container"
+		type="javax.sql.DataSource" username="sa" password=""
+		driverClassName="org.hsqldb.jdbcDriver" url="jdbc:hsqldb:mem:pandadb"
+		minEvictableIdleTimeMillis="4000" timeBetweenEvictionRunsMillis="5000"
+		maxActive="20" />
+	-->
+
+	<!-- for MySQL -->
+	<Resource name="jdbc/KnobDS" auth="Container" type="javax.sql.DataSource"
+		username="$db.username$" password="$db.password$" driverClassName="com.mysql.jdbc.Driver"
+		url="jdbc:mysql://$db.host$/$db.schema$?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8&amp;autoReconnectForPools=true"
+		maxActive="20" validationQuery="Select 1" />
+
+	<!-- Hibernate-specific settings -->
+	<Parameter override="false" name="hibernate.dialect"
+		value="org.hibernate.dialect.MySQL5Dialect" />
+	<Parameter override="false" name="hibernate.show_sql" value="false" />
+	<Parameter override="false" name="hibernate.format_sql"
+		value="false" />
+</Context>

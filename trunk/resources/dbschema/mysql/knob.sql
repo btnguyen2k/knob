@@ -19,3 +19,5 @@ CREATE TABLE IF NOT EXISTS knob_app_config (
 	INDEX (config_key),
 	PRIMARY KEY (config_domain, config_key)
 ) Engine = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci;
+
+INSERT INTO knob_app_config (config_domain, config_key, config_string) VALUES ('SITE', 'TITLE', 'Knob');

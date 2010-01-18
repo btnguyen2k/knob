@@ -1,12 +1,18 @@
 package org.ddth.knob.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ddth.knob.KnobAppConfigConstants;
 import org.ddth.knob.KnobConstants;
+import org.ddth.knob.bo.appconfig.AppConfig;
+import org.ddth.knob.bo.appconfig.AppConfigManager;
 import org.ddth.mls.Language;
 import org.ddth.mls.LanguageFactory;
 import org.ddth.mls.utils.MlsException;
@@ -22,7 +28,46 @@ public abstract class BaseController extends AbstractController {
 
 	private HttpServletResponse httpResponse;
 
+	private ModelAndView mav;
+
 	public final static String MODEL_LANGUAGE = "language";
+
+	public final static String MODEL_PAGE = "page";
+
+	public final static String MODEL_PAGE_TITLE = "title";
+
+	/**
+	 * Gets a bean
+	 * 
+	 * @param <T>
+	 * @param name
+	 *            String
+	 * @param clazz
+	 *            Class<T>
+	 * @return T
+	 */
+	protected <T> T getBean(String name, Class<T> clazz) {
+		return getApplicationContext().getBean(name, clazz);
+	}
+
+	/**
+	 * Gets the AppConfigManager instance.
+	 * 
+	 * @return AppConfigManager
+	 */
+	protected AppConfigManager getAppConfigManager() {
+		return getBean(KnobConstants.BEAN_APP_CONFIG_MANAGER,
+				AppConfigManager.class);
+	}
+
+	/**
+	 * Gets the ModelAndView object.
+	 * 
+	 * @return ModelAndView
+	 */
+	protected ModelAndView getModelAndView() {
+		return this.mav;
+	}
 
 	/**
 	 * Gets the current Http request object.
@@ -57,8 +102,8 @@ public abstract class BaseController extends AbstractController {
 	 * @return LanguageFactory
 	 */
 	protected LanguageFactory getLanguageFactory() {
-		return getApplicationContext().getBean(
-				KnobConstants.BEAN_LANGUAGE_FACTORY, LanguageFactory.class);
+		return getBean(KnobConstants.BEAN_LANGUAGE_FACTORY,
+				LanguageFactory.class);
 	}
 
 	/**
@@ -94,7 +139,7 @@ public abstract class BaseController extends AbstractController {
 	protected abstract String getViewName();
 
 	/**
-	 * Sets the Language model.
+	 * Top level model: Sets the Language model.
 	 * 
 	 * @param mav
 	 *            ModelAndView
@@ -104,12 +149,55 @@ public abstract class BaseController extends AbstractController {
 	}
 
 	/**
-	 * Subclass overrides this method to set its models.
+	 * Top level model: Sets the Page model.
 	 * 
 	 * @param mav
 	 *            ModelAndView
 	 */
-	protected void modelInternal(ModelAndView mav) {
+	protected void modelPage(ModelAndView mav) {
+		Map<String, Object> modelPage = new HashMap<String, Object>();
+		mav.addObject(MODEL_PAGE, modelPage);
+		modelPageTitle(modelPage);
+		modelPageContent(modelPage);
+	}
+
+	/**
+	 * Models the page's content. Subclass overrides this methods to model its
+	 * own page content.
+	 * 
+	 * @param modelPage
+	 *            Map<String, Object>
+	 */
+	protected void modelPageContent(Map<String, Object> modelPage) {
+		// do nothing
+	}
+
+	/**
+	 * Models the page's title.
+	 * 
+	 * @param modelPage
+	 *            Map<String, Object>
+	 */
+	protected void modelPageTitle(Map<String, Object> modelPage) {
+		AppConfigManager acp = getAppConfigManager();
+		AppConfig config = acp
+				.loadConfig(KnobAppConfigConstants.CONFIG_PAGE_TITLE);
+		if (config != null) {
+			modelPage.put(MODEL_PAGE_TITLE, config.getStringValue());
+		} else {
+			modelPage.put(MODEL_PAGE_TITLE, "");
+		}
+	}
+
+	/**
+	 * Subclass calls this methods to start populating models.
+	 * 
+	 * @param mav
+	 *            ModelAndView
+	 */
+	protected void modelController() {
+		modelLanguage(getModelAndView());
+		modelPage(getModelAndView());
 	}
 
 	/**
@@ -120,8 +208,15 @@ public abstract class BaseController extends AbstractController {
 			HttpServletResponse response) throws Exception {
 		this.httpRequest = request;
 		this.httpResponse = response;
-		ModelAndView mav = new ModelAndView(getViewName());
-		modelInternal(mav);
+		mav = new ModelAndView(getViewName());
+		execute();
 		return mav;
 	}
+
+	/**
+	 * Sub-class overrides this method to actually execute the controller.
+	 * 
+	 * @throws Exception
+	 */
+	protected abstract void execute() throws Exception;
 }

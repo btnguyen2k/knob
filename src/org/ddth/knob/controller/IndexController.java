@@ -17,4 +17,13 @@ public class IndexController extends BaseController {
 	protected String getViewName() {
 		return VIEW_NAME;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void execute() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

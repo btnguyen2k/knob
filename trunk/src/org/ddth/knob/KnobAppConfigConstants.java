@@ -9,6 +9,9 @@ import org.ddth.knob.bo.appconfig.AppConfigKey;
  * 
  */
 public class KnobAppConfigConstants {
+	public final static AppConfigKey CONFIG_PAGE_NAME = AppConfigKey
+			.createAppConfigKey("SITE", "NAME");
+
 	public final static AppConfigKey CONFIG_PAGE_TITLE = AppConfigKey
 			.createAppConfigKey("SITE", "TITLE");
 

@@ -9,7 +9,7 @@ package org.ddth.knob.controller;
 public class IndexController extends BaseController {
 
 	private final static String VIEW_NAME = "index";
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -23,7 +23,6 @@ public class IndexController extends BaseController {
 	 */
 	@Override
 	protected void execute() throws Exception {
-		// TODO Auto-generated method stub
-		
+		modelController();
 	}
 }

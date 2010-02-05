@@ -8,6 +8,8 @@ package org.ddth.knob;
  */
 public class KnobConstants {
 	public final static String BEAN_LANGUAGE_FACTORY = "languageFactory";
+	
+	public final static String BEAN_TEMPLATE_FACTORY = "templateFactory";
 
 	public final static String BEAN_APP_CONFIG_MANAGER = "managerAppConfig";
 }

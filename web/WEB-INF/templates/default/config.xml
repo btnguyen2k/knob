@@ -5,6 +5,6 @@
 	</settings>
 	
 	<page id="index">
-		<templateFile>index.html</templateFile>
+		<templateFile>page_index.html</templateFile>
 	</page>
 </template-config>

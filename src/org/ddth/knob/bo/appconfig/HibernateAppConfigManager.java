@@ -14,7 +14,7 @@ import org.hibernate.SessionFactory;
  */
 public class HibernateAppConfigManager implements AppConfigManager {
 
-	private final static String ENTITY_APP_CONFIG = AppConfig.class.toString();
+	private final static String ENTITY_APP_CONFIG = AppConfig.class.getName();
 
 	private static final String HQL_SELECT_CONFIGS_BY_DOMAIN = "FROM "
 			+ ENTITY_APP_CONFIG + " WHERE configKey.domain = :domain";
@@ -34,7 +34,7 @@ public class HibernateAppConfigManager implements AppConfigManager {
 
 	private Session getSession() {
 		SessionFactory sessionFactory = getSessionFactory();
-		Session session = sessionFactory.getCurrentSession();
+		Session session = null;// sessionFactory.getCurrentSession();
 		if (session == null) {
 			session = sessionFactory.openSession();
 		}

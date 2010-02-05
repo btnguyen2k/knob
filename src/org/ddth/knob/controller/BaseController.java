@@ -17,6 +17,9 @@ import org.ddth.mls.Language;
 import org.ddth.mls.LanguageFactory;
 import org.ddth.mls.utils.MlsException;
 import org.ddth.panda.PandaConstants;
+import org.ddth.webtemplate.Template;
+import org.ddth.webtemplate.TemplateFactory;
+import org.ddth.webtemplate.utils.WebTemplateException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -33,6 +36,8 @@ public abstract class BaseController extends AbstractController {
 	public final static String MODEL_LANGUAGE = "language";
 
 	public final static String MODEL_PAGE = "page";
+
+	public final static String MODEL_PAGE_NAME = "name";
 
 	public final static String MODEL_PAGE_TITLE = "title";
 
@@ -111,6 +116,16 @@ public abstract class BaseController extends AbstractController {
 	}
 
 	/**
+	 * Gets the TemplateFactory instance.
+	 * 
+	 * @return TemplateFactory
+	 */
+	protected TemplateFactory getTemplateFactory() {
+		return getBean(KnobConstants.BEAN_TEMPLATE_FACTORY,
+				TemplateFactory.class);
+	}
+
+	/**
 	 * Gets the language object.
 	 * 
 	 * @return Language
@@ -133,6 +148,42 @@ public abstract class BaseController extends AbstractController {
 					.getName());
 		}
 		return language;
+	}
+
+	private void initLanguage() {
+		HttpSession session = getSession();
+		Language language = (Language) session
+				.getAttribute(PandaConstants.SESSION_LANGUAGE);
+		if (language == null) {
+			LanguageFactory lf = getLanguageFactory();
+			try {
+				language = lf.getLanguage(PandaConstants.DEFAULT_LANGUAGE_NAME);
+			} catch (MlsException e) {
+				LOGGER.error("Can not retrieve language pack ["
+						+ PandaConstants.DEFAULT_LANGUAGE_NAME + "]", e);
+			}
+			session.setAttribute(PandaConstants.SESSION_LANGUAGE, language);
+			session.setAttribute(PandaConstants.SESSION_LANGUAGE_NAME, language
+					.getName());
+		}
+	}
+
+	private void initTemplate() {
+		HttpSession session = getSession();
+		Template template = (Template) session
+				.getAttribute(PandaConstants.SESSION_TEMPLATE);
+		if (template == null) {
+			TemplateFactory tf = getTemplateFactory();
+			try {
+				template = tf.getTemplate(PandaConstants.DEFAULT_TEMPLATE_NAME);
+			} catch (WebTemplateException e) {
+				LOGGER.error("Can not retrieve template pack ["
+						+ PandaConstants.DEFAULT_TEMPLATE_NAME + "]", e);
+			}
+			session.setAttribute(PandaConstants.SESSION_TEMPLATE, template);
+			session.setAttribute(PandaConstants.SESSION_TEMPLATE_NAME, template
+					.getName());
+		}
 	}
 
 	/**
@@ -161,6 +212,7 @@ public abstract class BaseController extends AbstractController {
 	protected void modelPage(ModelAndView mav) {
 		Map<String, Object> modelPage = new HashMap<String, Object>();
 		mav.addObject(MODEL_PAGE, modelPage);
+		modelPageName(modelPage);
 		modelPageTitle(modelPage);
 		modelPageKeywords(modelPage);
 		modelPageDescription(modelPage);
@@ -176,6 +228,23 @@ public abstract class BaseController extends AbstractController {
 	 */
 	protected void modelPageContent(Map<String, Object> modelPage) {
 		// do nothing
+	}
+
+	/**
+	 * Models the page's name.
+	 * 
+	 * @param modelPage
+	 *            Map<String, Object>
+	 */
+	protected void modelPageName(Map<String, Object> modelPage) {
+		AppConfigManager acp = getAppConfigManager();
+		AppConfig config = acp
+				.loadConfig(KnobAppConfigConstants.CONFIG_PAGE_NAME);
+		if (config != null) {
+			modelPage.put(MODEL_PAGE_NAME, config.getStringValue());
+		} else {
+			modelPage.put(MODEL_PAGE_NAME, "");
+		}
 	}
 
 	/**
@@ -248,7 +317,9 @@ public abstract class BaseController extends AbstractController {
 			HttpServletResponse response) throws Exception {
 		this.httpRequest = request;
 		this.httpResponse = response;
-		mav = new ModelAndView(getViewName());
+		initLanguage();
+		initTemplate();
+		this.mav = new ModelAndView(getViewName());
 		execute();
 		return mav;
 	}

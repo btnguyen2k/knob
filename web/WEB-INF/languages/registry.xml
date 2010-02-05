@@ -7,7 +7,7 @@
 	</storage>
 	<language name="default" description="Default Language Pack"
 		type="properties" locale="en">
-		<asset name="demo.properties" />
+		<asset name="knob.properties" />
 	</language>
 
 	<language name="en" description="English Language Pack" type="ref"
@@ -17,6 +17,6 @@
 	
 	<language name="vn" description="Vietnamese Language Pack" type="properties"
 		locale="vi">
-		<asset name="demo.xml" />
+		<asset name="knob.xml" />
 	</language>
 </languages>

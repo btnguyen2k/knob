@@ -1,0 +1,1 @@
+Hi buddies, let's open the door to the mysterious land of programming ;-)
